@@ -1,87 +1,1414 @@
-# TEST_INVENTORY.yaml — P1 Naming Authority
-# Maps every FR to expected test function names. These are the AUTHORITATIVE names
-# that derive_test_cases.md preserves in TEST_SPEC.md (P2 single source of truth).
-# Specified per FR and per test category (unit/integration/cross_cutting).
-# If no name is specified for a category, derive_test_cases.md fills the gap with
-# names derived via the 7-Question Protocol.
+# TEST_INVENTORY.yaml — Phase 1 Test Naming Authority
 format_version: "1.1"
 
-# ── test_inventory ────────────────────────────────────────────────────────
-# Round 74 站5. The P1 prompt (scripts/workflowgen/spec_phase1.py) calls this
-# key REQUIRED — "Non-conforming schema fails the load step" — and this file,
-# which cli/project_cmds.py copies into every new project root on day one, did
-# not contain it. Nor did anything say what goes under it. Seven projects
-# invented four spellings of the same field (test_function, test_name,
-# test_function_name, none at all) and three different container shapes, and
-# the rule in cli/checks/specs.py that reads this block could see three of
-# nine of them.
-#
-# `tests:` is the enumerated 1:1 mapping with TRACEABILITY_MATRIX §1 the
-# prompt already describes; the summary blocks are the arithmetic it already
-# checks. Each entry carries:
-#
-#   tc_id          the matrix id, one entry per id — never a range
-#   fr / nfr       the requirement this test verifies (exactly one of them,
-#                  and the whole value is the id — a test that merely touches
-#                  another requirement says so in cross_ref_frs/cross_ref_nfrs)
-#   layer          unit | static | integration | e2e — what runs it, and the
-#                  field the NFR Layering Hard Rule reads
-#   test_function  the name, identical to TEST_SPEC.md's `Test Function` cell
-#   test_file      where it will live
+# Every test case enumerated in TRACEABILITY_MATRIX.md §§4–5 has one record.
+# A suffixed matrix subcase remains an independently executable test contract.
 test_inventory:
   tests:
     - tc_id: TC-FR01-01
       fr: FR-01
       ac: AC-1.1
       layer: integration
-      test_function: test_fr01_example_integration  # EXAMPLE — replace
-      test_file: tests/integration/test_fr01.py
+      test_function: test_fr01_create_task_returns_201_with_id
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["An authorized valid request returns 201 and a non-empty task id."]
     - tc_id: TC-FR01-02
       fr: FR-01
       ac: AC-1.2
+      layer: integration
+      test_function: test_fr01_get_task_returns_full_record
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["The read endpoint returns every persisted field for the requested task."]
+    - tc_id: TC-FR01-03a
+      fr: FR-01
+      ac: AC-1.3
+      layer: integration
+      test_function: test_fr01_list_filters_by_status
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["A status filter returns only tasks having the requested status."]
+    - tc_id: TC-FR01-03b
+      fr: FR-01
+      ac: AC-1.3
+      layer: integration
+      test_function: test_fr01_list_applies_limit
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["The list response contains no more than the requested limit."]
+    - tc_id: TC-FR01-03c
+      fr: FR-01
+      ac: AC-1.3
+      layer: integration
+      test_function: test_fr01_list_continues_from_cursor
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["A returned cursor continues after the prior page without duplicates or omissions."]
+    - tc_id: TC-FR01-04a
+      fr: FR-01
+      ac: AC-1.4
+      layer: integration
+      test_function: test_fr01_list_uses_cursor_not_offset
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["The endpoint exposes cursor pagination and rejects an offset query parameter."]
+    - tc_id: TC-FR01-04b
+      fr: FR-01
+      ac: AC-1.4
+      layer: integration
+      test_function: test_fr01_list_defaults_limit_to_50
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["Omitting limit returns at most 50 tasks."]
+    - tc_id: TC-FR01-04c
+      fr: FR-01
+      ac: AC-1.4
+      layer: integration
+      test_function: test_fr01_list_accepts_limit_200
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["A limit of 200 is accepted and can return up to 200 tasks."]
+    - tc_id: TC-FR01-04d
+      fr: FR-01
+      ac: AC-1.4
+      layer: integration
+      test_function: test_fr01_list_rejects_limit_201
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      cross_ref_frs: [FR-10]
+      asserts: ["A limit of 201 returns the canonical 422 validation problem."]
+    - tc_id: TC-FR01-05
+      fr: FR-01
+      ac: AC-1.5
+      layer: integration
+      test_function: test_fr01_delete_task_and_results_atomically
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      asserts: ["Admin deletion removes the task and all result rows in one committed transaction."]
+    - tc_id: TC-FR01-06a
+      fr: FR-01
+      ac: AC-1.6
+      layer: integration
+      test_function: test_fr01_rejects_canonical_empty_value
+      test_file: 03-development/tests/integration/test_fr01_validation.py
+      cross_ref_frs: [FR-10]
+      deferred_decision: FR-01-deferred
+      asserts: ["The stakeholder-resolved empty-value violation returns a 422 problem response."]
+    - tc_id: TC-FR01-06b
+      fr: FR-01
+      ac: AC-1.6
+      layer: integration
+      test_function: test_fr01_rejects_value_over_1000
+      test_file: 03-development/tests/integration/test_fr01_validation.py
+      cross_ref_frs: [FR-10]
+      deferred_decision: FR-01-deferred
+      asserts: ["The stakeholder-resolved value longer than 1000 returns a 422 problem response."]
+    - tc_id: TC-FR01-06c
+      fr: FR-01
+      ac: AC-1.6
+      layer: integration
+      test_function: test_fr01_rejects_blacklisted_injection_value
+      test_file: 03-development/tests/integration/test_fr01_validation.py
+      cross_ref_frs: [FR-10]
+      deferred_decision: FR-01-deferred
+      asserts: ["The stakeholder-resolved blacklisted value returns a 422 problem response."]
+    - tc_id: TC-FR01-07
+      fr: FR-01
+      ac: AC-1.7
+      layer: integration
+      test_function: test_fr01_unknown_task_returns_not_found_problem
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      cross_ref_frs: [FR-10]
+      asserts: ["An unknown task returns 404 with problem type /errors/not-found."]
+    - tc_id: TC-FR01-08
+      fr: FR-01
+      ac: AC-1.8
+      layer: integration
+      test_function: test_fr01_duplicate_name_returns_conflict_problem
+      test_file: 03-development/tests/integration/test_fr01_tasks.py
+      cross_ref_frs: [FR-10]
+      asserts: ["A duplicate task name returns 409 with problem type /errors/conflict."]
+
+    - tc_id: TC-FR02-01
+      fr: FR-02
+      ac: AC-2.1
+      layer: integration
+      test_function: test_fr02_submit_run_returns_202_with_run_id
+      test_file: 03-development/tests/integration/test_fr02_runs.py
+      asserts: ["An authorized run submission returns 202 and a non-empty run id."]
+    - tc_id: TC-FR02-02a
+      fr: FR-02
+      ac: AC-2.2
       layer: unit
-      test_function: test_fr01_example_unit  # EXAMPLE — replace
-      test_file: tests/unit/test_fr01.py
+      test_function: test_fr02_subprocess_uses_split_args_without_shell
+      test_file: 03-development/tests/unit/test_fr02_runner.py
       cross_ref_nfrs: [NFR-02]
-    # An NFR whose verifier is a unit or static check belongs here with its
-    # layer, and in TEST_SPEC.md's "Deferred to Downstream Phases" section.
-    - tc_id: TC-N02-01
+      asserts: ["The runner passes shlex-split arguments to create_subprocess_exec and never enables a shell."]
+    - tc_id: TC-FR02-02b
+      fr: FR-02
+      ac: AC-2.2
+      layer: integration
+      test_function: test_fr02_subprocess_honors_task_timeout
+      test_file: 03-development/tests/integration/test_fr02_runner.py
+      asserts: ["Execution times out at the configured TASKQ_TASK_TIMEOUT boundary."]
+    - tc_id: TC-FR02-03a
+      fr: FR-02
+      ac: AC-2.3
+      layer: integration
+      test_function: test_fr02_successful_run_transitions_to_done
+      test_file: 03-development/tests/integration/test_fr02_runner.py
+      asserts: ["A zero-exit process transitions pending to running to done."]
+    - tc_id: TC-FR02-03b
+      fr: FR-02
+      ac: AC-2.3
+      layer: integration
+      test_function: test_fr02_nonzero_run_transitions_to_failed
+      test_file: 03-development/tests/integration/test_fr02_runner.py
+      asserts: ["A non-zero process transitions pending to running to failed."]
+    - tc_id: TC-FR02-03c
+      fr: FR-02
+      ac: AC-2.3
+      layer: integration
+      test_function: test_fr02_overdue_run_transitions_to_timeout
+      test_file: 03-development/tests/integration/test_fr02_runner.py
+      cross_ref_frs: [FR-10]
+      asserts: ["An overdue process transitions pending to running to timeout."]
+    - tc_id: TC-FR02-04
+      fr: FR-02
+      ac: AC-2.4
+      layer: integration
+      test_function: test_fr02_completed_run_persists_result_fields
+      test_file: 03-development/tests/integration/test_fr02_runs.py
+      deferred_decision: FR-02-deferred
+      asserts:
+        - "The result belongs to the submitted task and persists exit_code, stdout_tail, stderr_tail, duration_ms, and finished_at."
+    - tc_id: TC-FR02-05
+      fr: FR-02
+      ac: AC-2.5
+      layer: integration
+      test_function: test_fr02_run_history_is_task_scoped_and_newest_first
+      test_file: 03-development/tests/integration/test_fr02_runs.py
+      asserts: ["Run history contains only the requested task records ordered newest first."]
+
+    - tc_id: TC-FR03-01a
+      fr: FR-03
+      ac: AC-3.1
+      layer: integration
+      test_function: test_fr03_missing_api_key_returns_unauthenticated
+      test_file: 03-development/tests/integration/test_fr03_authentication.py
+      cross_ref_frs: [FR-10]
+      asserts: ["A protected route without X-API-Key returns the canonical 401 unauthenticated problem."]
+    - tc_id: TC-FR03-01b
+      fr: FR-03
+      ac: AC-3.1
+      layer: integration
+      test_function: test_fr03_invalid_api_key_returns_unauthenticated
+      test_file: 03-development/tests/integration/test_fr03_authentication.py
+      cross_ref_frs: [FR-10]
+      asserts: ["A protected route with an invalid key returns the canonical 401 unauthenticated problem."]
+    - tc_id: TC-FR03-02a
+      fr: FR-03
+      ac: AC-3.2
+      layer: integration
+      test_function: test_fr03_storage_contains_only_sha256_key_hash
+      test_file: 03-development/tests/integration/test_fr03_authentication.py
+      cross_ref_nfrs: [NFR-02]
+      asserts: ["Persisted key material is a 64-hex SHA-256 hash and contains no plaintext key."]
+    - tc_id: TC-FR03-02b
+      fr: FR-03
+      ac: AC-3.2
+      layer: unit
+      test_function: test_fr03_key_comparison_uses_compare_digest
+      test_file: 03-development/tests/unit/test_fr03_authentication.py
+      cross_ref_nfrs: [NFR-02]
+      asserts: ["Credential verification invokes hmac.compare_digest for hash comparison."]
+    - tc_id: TC-FR03-03
+      fr: FR-03
+      ac: AC-3.3
+      layer: e2e
+      test_function: test_fr03_key_create_prints_plaintext_once
+      test_file: 03-development/tests/e2e/test_fr03_key_cli.py
+      cross_ref_nfrs: [NFR-04]
+      asserts: ["The key-create command succeeds and emits its generated plaintext exactly once."]
+    - tc_id: TC-FR03-04
+      fr: FR-03
+      ac: AC-3.4
+      layer: integration
+      test_function: test_fr03_revoked_key_is_rejected
+      test_file: 03-development/tests/integration/test_fr03_authentication.py
+      asserts: ["A key with non-null revoked_at is rejected as unauthenticated."]
+    - tc_id: TC-FR03-05a
+      fr: FR-03
+      ac: AC-3.5
+      layer: integration
+      test_function: test_fr03_healthz_requires_no_key
+      test_file: 03-development/tests/integration/test_fr03_authentication.py
+      asserts: ["Liveness succeeds without an API key."]
+    - tc_id: TC-FR03-05b
+      fr: FR-03
+      ac: AC-3.5
+      layer: integration
+      test_function: test_fr03_readyz_requires_no_key
+      test_file: 03-development/tests/integration/test_fr03_authentication.py
+      asserts: ["Readiness can be evaluated without an API key."]
+
+    - tc_id: TC-FR04-01a
+      fr: FR-04
+      ac: AC-4.1
+      layer: integration
+      test_function: test_fr04_read_scope_allows_only_read_operations
+      test_file: 03-development/tests/integration/test_fr04_authorization.py
+      asserts: ["Read scope permits reads and denies write and admin operations."]
+    - tc_id: TC-FR04-01b
+      fr: FR-04
+      ac: AC-4.1
+      layer: integration
+      test_function: test_fr04_write_scope_allows_read_and_write
+      test_file: 03-development/tests/integration/test_fr04_authorization.py
+      asserts: ["Write scope permits read and write operations but denies admin operations."]
+    - tc_id: TC-FR04-01c
+      fr: FR-04
+      ac: AC-4.1
+      layer: integration
+      test_function: test_fr04_admin_scope_allows_all_operations
+      test_file: 03-development/tests/integration/test_fr04_authorization.py
+      asserts: ["Admin scope permits read, write, and admin operations."]
+    - tc_id: TC-FR04-02a
+      fr: FR-04
+      ac: AC-4.2
+      layer: integration
+      test_function: test_fr04_insufficient_scope_returns_forbidden
+      test_file: 03-development/tests/integration/test_fr04_authorization.py
+      cross_ref_frs: [FR-10]
+      asserts: ["An under-scoped request returns the canonical 403 forbidden problem."]
+    - tc_id: TC-FR04-02b
+      fr: FR-04
+      ac: AC-4.2
+      layer: integration
+      test_function: test_fr04_forbidden_response_hides_existence
+      test_file: 03-development/tests/integration/test_fr04_authorization.py
+      cross_ref_nfrs: [NFR-02]
+      asserts: ["Under-scoped probes of existing and missing ids have indistinguishable response bodies."]
+    - tc_id: TC-FR04-03
+      fr: FR-04
+      ac: AC-4.3
+      layer: static
+      test_function: test_fr04_all_v1_routes_share_authorization_dependency
+      test_file: 03-development/tests/static/test_fr04_authorization_contract.py
+      asserts: ["Every /v1 route declares the shared authorization dependency and handlers contain no alternate authorization branch."]
+
+    - tc_id: TC-FR05-01a
+      fr: FR-05
+      ac: AC-5.1
+      layer: unit
+      test_function: test_fr05_each_token_has_independent_burst_capacity
+      test_file: 03-development/tests/unit/test_fr05_rate_limit.py
+      asserts: ["Each token begins with the configured burst capacity without consuming another token bucket."]
+    - tc_id: TC-FR05-01b
+      fr: FR-05
+      ac: AC-5.1
+      layer: unit
+      test_function: test_fr05_bucket_refills_at_configured_rate
+      test_file: 03-development/tests/unit/test_fr05_rate_limit.py
+      asserts: ["Elapsed time replenishes tokens at TASKQ_RATE_PER_SEC without exceeding capacity."]
+    - tc_id: TC-FR05-02
+      fr: FR-05
+      ac: AC-5.2
+      layer: integration
+      test_function: test_fr05_over_limit_returns_429_with_retry_after
+      test_file: 03-development/tests/integration/test_fr05_rate_limit.py
+      cross_ref_frs: [FR-10]
+      asserts: ["An over-limit request returns 429, /errors/rate-limited, and numeric-seconds Retry-After."]
+    - tc_id: TC-FR05-03a
+      fr: FR-05
+      ac: AC-5.3
+      layer: integration
+      test_function: test_fr05_bucket_state_persists_across_requests
+      test_file: 03-development/tests/integration/test_fr05_rate_limit.py
+      deferred_decision: FR-05-deferred
+      asserts: ["Separate request contexts observe the same persisted bucket state."]
+    - tc_id: TC-FR05-03b
+      fr: FR-05
+      ac: AC-5.3
+      layer: integration
+      test_function: test_fr05_concurrent_bucket_updates_do_not_over_admit
+      test_file: 03-development/tests/integration/test_fr05_rate_limit.py
+      deferred_decision: FR-05-deferred
+      asserts: ["Concurrent updates admit no more requests than available tokens and use the stakeholder-resolved locking rule in one transaction."]
+    - tc_id: TC-FR05-04a
+      fr: FR-05
+      ac: AC-5.4
+      layer: integration
+      test_function: test_fr05_healthz_is_exempt_after_rate_exhaustion
+      test_file: 03-development/tests/integration/test_fr05_rate_limit.py
+      asserts: ["Liveness remains callable after the caller exhausts its token bucket."]
+    - tc_id: TC-FR05-04b
+      fr: FR-05
+      ac: AC-5.4
+      layer: integration
+      test_function: test_fr05_readyz_is_exempt_after_rate_exhaustion
+      test_file: 03-development/tests/integration/test_fr05_rate_limit.py
+      asserts: ["Readiness remains callable after the caller exhausts its token bucket."]
+
+    - tc_id: TC-FR06-01
+      fr: FR-06
+      ac: AC-6.1
+      layer: static
+      test_function: test_fr06_data_access_stays_in_repositories
+      test_file: 03-development/tests/static/test_fr06_repository_contract.py
+      cross_ref_nfrs: [NFR-06]
+      asserts: ["Data access is confined to repository modules and service objects do not retain Session instances."]
+    - tc_id: TC-FR06-02a
+      fr: FR-06
+      ac: AC-6.2
+      layer: integration
+      test_function: test_fr06_request_session_commits_on_success
+      test_file: 03-development/tests/integration/test_fr06_transactions.py
+      asserts: ["A successful request commits its request-scoped session exactly once."]
+    - tc_id: TC-FR06-02b
+      fr: FR-06
+      ac: AC-6.2
+      layer: integration
+      test_function: test_fr06_request_session_rolls_back_on_exception
+      test_file: 03-development/tests/integration/test_fr06_transactions.py
+      asserts: ["An exceptional request rolls back and does not commit its request-scoped session."]
+    - tc_id: TC-FR06-03
+      fr: FR-06
+      ac: AC-6.3
+      layer: static
+      test_function: test_fr06_queries_are_orm_or_parameterized
+      test_file: 03-development/tests/static/test_fr06_repository_contract.py
+      cross_ref_nfrs: [NFR-02]
+      asserts: ["Repository source contains no interpolated or concatenated SQL construction."]
+    - tc_id: TC-FR06-04
+      fr: FR-06
+      ac: AC-6.4
+      layer: integration
+      test_function: test_fr06_relationship_loading_has_constant_query_count
+      test_file: 03-development/tests/integration/test_fr06_queries.py
+      cross_ref_nfrs: [NFR-01]
+      asserts: ["Relationship loading is explicit and SQL statement count is constant as list size increases."]
+    - tc_id: TC-FR06-05
+      fr: FR-06
+      ac: AC-6.5
+      layer: unit
+      test_function: test_fr06_engine_uses_pool_settings_and_default_url
+      test_file: 03-development/tests/unit/test_fr06_session.py
+      asserts: ["Engine construction applies configured pool size, pool_pre_ping, and the canonical default database URL."]
+
+    - tc_id: TC-FR07-01a
+      fr: FR-07
+      ac: AC-7.1
+      layer: integration
+      test_function: test_fr07_v1_upgrade_and_downgrade_execute
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      asserts: ["The v1 revision upgrades and downgrades successfully."]
+    - tc_id: TC-FR07-01b
+      fr: FR-07
+      ac: AC-7.1
+      layer: integration
+      test_function: test_fr07_v2_upgrade_and_downgrade_execute
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      asserts: ["The v2 revision upgrades and downgrades successfully."]
+    - tc_id: TC-FR07-01c
+      fr: FR-07
+      ac: AC-7.1
+      layer: integration
+      test_function: test_fr07_v3_upgrade_and_downgrade_execute
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      asserts: ["The v3 revision upgrades and downgrades successfully."]
+    - tc_id: TC-FR07-02a
+      fr: FR-07
+      ac: AC-7.2
+      layer: integration
+      test_function: test_fr07_v1_upgrade_exposes_resolved_schema
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      deferred_decision: FR-07-deferred
+      asserts: ["The v1 boundary exposes the stakeholder-resolved canonical table and column set."]
+    - tc_id: TC-FR07-02b
+      fr: FR-07
+      ac: AC-7.2
+      layer: integration
+      test_function: test_fr07_v1_downgrade_removes_resolved_schema
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      deferred_decision: FR-07-deferred
+      asserts: ["Downgrading v1 removes exactly the stakeholder-resolved v1 schema."]
+    - tc_id: TC-FR07-03
+      fr: FR-07
+      ac: AC-7.3
+      layer: integration
+      test_function: test_fr07_v2_round_trip_preserves_v1_data
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      asserts: ["v2 creates tags, task_tags, and the unique name index, then removes only those additions while preserving v1 data."]
+    - tc_id: TC-FR07-04a
+      fr: FR-07
+      ac: AC-7.4
+      layer: integration
+      test_function: test_fr07_v3_upgrade_migrates_result_json
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      asserts: ["v3 upgrade copies existing result_json values into task_results before removing the source column."]
+    - tc_id: TC-FR07-04b
+      fr: FR-07
+      ac: AC-7.4
+      layer: integration
+      test_function: test_fr07_v3_downgrade_restores_result_json
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      asserts: ["v3 downgrade restores result values to tasks.result_json before removing task_results."]
+    - tc_id: TC-FR07-05a
+      fr: FR-07
+      ac: AC-7.5
+      layer: integration
+      test_function: test_fr07_upgrade_base_to_head_exits_zero
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      asserts: ["Upgrading a base database to Alembic head exits successfully."]
+    - tc_id: TC-FR07-05b
+      fr: FR-07
+      ac: AC-7.5
+      layer: integration
+      test_function: test_fr07_downgrade_head_to_base_leaves_no_tables
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      asserts: ["Downgrading head to base exits successfully and leaves no application tables."]
+    - tc_id: TC-FR07-06
+      fr: FR-07
+      ac: AC-7.6
+      layer: integration
+      test_function: test_fr07_real_sqlite_round_trip_preserves_values
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      cross_ref_nfrs: [NFR-09]
+      asserts: ["A real-file SQLite v3 downgrade and re-upgrade preserves every sample value column by column."]
+    - tc_id: TC-FR07-07
+      fr: FR-07
+      ac: AC-7.7
+      layer: static
+      test_function: test_fr07_migrations_have_no_raw_drop_shortcut
+      test_file: 03-development/tests/static/test_fr07_migration_contract.py
+      asserts: ["Migration source contains no destructive raw DROP TABLE shortcut in place of downgrade operations."]
+    - tc_id: TC-FR07-08a
+      fr: FR-07
+      ac: AC-7.8
+      layer: integration
+      test_function: test_fr07_offline_upgrade_sql_contains_operations
+      test_file: 03-development/tests/integration/test_fr07_offline_sql.py
+      asserts: ["Offline upgrade SQL generation succeeds and contains the expected upgrade operations."]
+    - tc_id: TC-FR07-08b
+      fr: FR-07
+      ac: AC-7.8
+      layer: integration
+      test_function: test_fr07_offline_downgrade_sql_contains_operations
+      test_file: 03-development/tests/integration/test_fr07_offline_sql.py
+      asserts: ["Offline downgrade SQL generation succeeds and contains the expected downgrade operations."]
+    - tc_id: TC-FR07-09
+      fr: FR-07
+      ac: AC-7.9
+      layer: integration
+      test_function: test_fr07_head_schema_has_canonical_tables_and_fields
+      test_file: 03-development/tests/integration/test_fr07_migrations.py
+      deferred_decision: FR-07-deferred
+      asserts: ["Head exposes all six canonical tables and their principal fields under the stakeholder-resolved v1 allocation."]
+
+    - tc_id: TC-FR08-01a
+      fr: FR-08
+      ac: AC-8.1
+      layer: integration
+      test_function: test_fr08_shutdown_drains_work_within_timeout
+      test_file: 03-development/tests/integration/test_fr08_runner_lifecycle.py
+      asserts: ["Shutdown waits for in-flight work that finishes within TASKQ_DRAIN_TIMEOUT."]
+    - tc_id: TC-FR08-01b
+      fr: FR-08
+      ac: AC-8.1
+      layer: integration
+      test_function: test_fr08_shutdown_marks_overdue_work_interrupted
+      test_file: 03-development/tests/integration/test_fr08_runner_lifecycle.py
+      deferred_decision: FR-08-deferred
+      asserts: ["Work exceeding the drain timeout receives the stakeholder-resolved interrupted representation."]
+    - tc_id: TC-FR08-02a
+      fr: FR-08
+      ac: AC-8.2
+      layer: integration
+      test_function: test_fr08_active_processes_never_exceed_limit
+      test_file: 03-development/tests/integration/test_fr08_runner_lifecycle.py
+      asserts: ["Observed active process count never exceeds TASKQ_MAX_CONCURRENT."]
+    - tc_id: TC-FR08-02b
+      fr: FR-08
+      ac: AC-8.2
+      layer: integration
+      test_function: test_fr08_excess_submissions_wait_for_capacity
+      test_file: 03-development/tests/integration/test_fr08_runner_lifecycle.py
+      asserts: ["Submissions above capacity wait for a worker slot instead of spawning unbounded coroutines."]
+    - tc_id: TC-FR08-03
+      fr: FR-08
+      ac: AC-8.3
+      layer: integration
+      test_function: test_fr08_timeout_kills_and_reaps_process
+      test_file: 03-development/tests/integration/test_fr08_runner_lifecycle.py
+      cross_ref_nfrs: [NFR-03]
+      asserts: ["Timeout kills and awaits the child process, which is absent from subsequent process inspection."]
+    - tc_id: TC-FR08-04
+      fr: FR-08
+      ac: AC-8.4
+      layer: integration
+      test_function: test_fr08_cancellation_propagates_without_http_500
+      test_file: 03-development/tests/integration/test_fr08_runner_lifecycle.py
+      cross_ref_nfrs: [NFR-03]
+      asserts: ["Cancellation propagates as CancelledError and is not converted into an HTTP 500 response."]
+
+    - tc_id: TC-FR09-01
+      fr: FR-09
+      ac: AC-9.1
+      layer: integration
+      test_function: test_fr09_healthz_returns_exact_ok_response
+      test_file: 03-development/tests/integration/test_fr09_operations.py
+      asserts: ["Unauthenticated liveness returns 200 and exactly the canonical status payload."]
+    - tc_id: TC-FR09-02a
+      fr: FR-09
+      ac: AC-9.2
+      layer: integration
+      test_function: test_fr09_readyz_returns_200_at_migration_head
+      test_file: 03-development/tests/integration/test_fr09_operations.py
+      asserts: ["A connected database at Alembic head produces readiness 200."]
+    - tc_id: TC-FR09-02b
+      fr: FR-09
+      ac: AC-9.2
+      layer: integration
+      test_function: test_fr09_readyz_db_failure_returns_503
+      test_file: 03-development/tests/integration/test_fr09_operations.py
+      cross_ref_frs: [FR-10]
+      asserts: ["Database connection failure returns canonical 503 problem details naming the database check."]
+    - tc_id: TC-FR09-02c
+      fr: FR-09
+      ac: AC-9.2
+      layer: integration
+      test_function: test_fr09_readyz_revision_lag_returns_503
+      test_file: 03-development/tests/integration/test_fr09_operations.py
+      cross_ref_frs: [FR-10]
+      asserts: ["A revision behind head returns canonical 503 problem details naming the migration check."]
+    - tc_id: TC-FR09-03
+      fr: FR-09
+      ac: AC-9.3
+      layer: integration
+      test_function: test_fr09_admin_metrics_expose_required_measurements
+      test_file: 03-development/tests/integration/test_fr09_operations.py
+      deferred_decision: FR-09-deferred
+      asserts: ["Admin metrics contain per-status task counts, stakeholder-resolved latency percentiles, and rate-limit rejection count."]
+
+    - tc_id: TC-FR10-01
+      fr: FR-10
+      ac: AC-10.1
+      layer: integration
+      test_function: test_fr10_all_non_2xx_use_problem_json
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      asserts: ["Every exercised non-2xx response uses application/problem+json."]
+    - tc_id: TC-FR10-02
+      fr: FR-10
+      ac: AC-10.2
+      layer: integration
+      test_function: test_fr10_problem_body_has_six_required_fields
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      asserts: ["Problem bodies contain type, title, status, detail, instance, and correlation_id with valid types."]
+    - tc_id: TC-FR10-03
+      fr: FR-10
+      ac: AC-10.3
+      layer: integration
+      test_function: test_fr10_problem_detail_discloses_no_internals
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_nfrs: [NFR-02, NFR-04]
+      asserts: ["Problem detail contains no SQL, stack trace, filesystem path, or schema disclosure."]
+    - tc_id: TC-FR10-04
+      fr: FR-10
+      ac: AC-10.4
+      layer: integration
+      test_function: test_fr10_correlation_id_matches_header_body_and_log
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      asserts: ["One correlation id is identical in the response header, response body, and captured server log."]
+    - tc_id: TC-FR10-05
+      fr: FR-10
+      ac: AC-10.5
+      layer: integration
+      test_function: test_fr10_validation_maps_to_422_problem
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_frs: [FR-01]
+      asserts: ["Request validation maps to status 422 and type /errors/validation."]
+    - tc_id: TC-FR10-06
+      fr: FR-10
+      ac: AC-10.6
+      layer: integration
+      test_function: test_fr10_authentication_maps_to_401_problem
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_frs: [FR-03]
+      asserts: ["Missing and invalid credentials map to status 401 and type /errors/unauthenticated."]
+    - tc_id: TC-FR10-07
+      fr: FR-10
+      ac: AC-10.7
+      layer: integration
+      test_function: test_fr10_authorization_maps_to_403_problem
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_frs: [FR-04]
+      asserts: ["Insufficient scope maps to non-disclosing status 403 and type /errors/forbidden."]
+    - tc_id: TC-FR10-08
+      fr: FR-10
+      ac: AC-10.8
+      layer: integration
+      test_function: test_fr10_missing_task_maps_to_404_problem
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_frs: [FR-01]
+      asserts: ["An unknown task maps to status 404 and type /errors/not-found."]
+    - tc_id: TC-FR10-09
+      fr: FR-10
+      ac: AC-10.9
+      layer: integration
+      test_function: test_fr10_name_conflict_maps_to_409_problem
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_frs: [FR-01]
+      asserts: ["A duplicate name maps to status 409 and type /errors/conflict."]
+    - tc_id: TC-FR10-10
+      fr: FR-10
+      ac: AC-10.10
+      layer: integration
+      test_function: test_fr10_rate_limit_maps_to_429_problem
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_frs: [FR-05]
+      asserts: ["Rate rejection maps to status 429, type /errors/rate-limited, and Retry-After."]
+    - tc_id: TC-FR10-11
+      fr: FR-10
+      ac: AC-10.11
+      layer: integration
+      test_function: test_fr10_not_ready_maps_to_503_problem
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_frs: [FR-09]
+      asserts: ["Database failure and revision lag map to status 503 and type /errors/not-ready."]
+    - tc_id: TC-FR10-12
+      fr: FR-10
+      ac: AC-10.12
+      layer: integration
+      test_function: test_fr10_unexpected_exception_maps_to_safe_500
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_nfrs: [NFR-02, NFR-04]
+      asserts: ["An unexpected exception maps to non-disclosing status 500 and type /errors/internal."]
+    - tc_id: TC-FR10-13
+      fr: FR-10
+      ac: AC-10.13
+      layer: integration
+      test_function: test_fr10_timeout_is_200_task_status
+      test_file: 03-development/tests/integration/test_fr10_problem_details.py
+      cross_ref_frs: [FR-02]
+      asserts: ["Task timeout appears as status timeout in a 200 response and has no problem type."]
+
+    - tc_id: TC-NFR01-01
+      nfr: NFR-01
+      ac: AC-N1.1
+      layer: integration
+      test_function: test_nfr01_single_task_get_p95_under_30ms
+      test_file: 03-development/tests/integration/test_nfr01_performance.py
+      cross_ref_frs: [FR-01]
+      asserts: ["With 10000 rows over ASGI transport, single-task GET p95 is below 30 ms."]
+    - tc_id: TC-NFR01-02
+      nfr: NFR-01
+      ac: AC-N1.2
+      layer: integration
+      test_function: test_nfr01_fifty_task_list_p95_under_80ms
+      test_file: 03-development/tests/integration/test_nfr01_performance.py
+      cross_ref_frs: [FR-01]
+      asserts: ["With 10000 rows, a 50-task list GET p95 is below 80 ms."]
+    - tc_id: TC-NFR01-03
+      nfr: NFR-01
+      ac: AC-N1.3
+      layer: integration
+      test_function: test_nfr01_list_query_count_is_constant
+      test_file: 03-development/tests/integration/test_nfr01_performance.py
+      cross_ref_frs: [FR-01, FR-06]
+      asserts: ["SQLAlchemy event counts remain constant as the returned task count increases."]
+
+    - tc_id: TC-NFR02-01
       nfr: NFR-02
       ac: AC-N2.1
       layer: static
-      test_function: test_security_example  # EXAMPLE — replace
-      test_file: tests/static/test_nfr02.py
-    - tc_id: TC-N09-01
+      test_function: test_nfr02_source_has_no_prohibited_execution_calls
+      test_file: 03-development/tests/static/test_nfr02_security.py
+      cross_ref_frs: [FR-02]
+      deferred_decision: NFR-02-deferred
+      asserts: ["The stakeholder-resolved canonical source scope has zero shell=True, eval, and exec call hits."]
+    - tc_id: TC-NFR02-02
+      nfr: NFR-02
+      ac: AC-N2.2
+      layer: static
+      test_function: test_nfr02_source_has_no_interpolated_sql
+      test_file: 03-development/tests/static/test_nfr02_security.py
+      cross_ref_frs: [FR-06]
+      asserts: ["Grep and source review find zero f-string, percent-formatted, or concatenated SQL constructions."]
+    - tc_id: TC-NFR02-03
+      nfr: NFR-02
+      ac: AC-N2.3
+      layer: integration
+      test_function: test_nfr02_keys_are_hashed_and_compared_constantly
+      test_file: 03-development/tests/integration/test_nfr02_security.py
+      cross_ref_frs: [FR-03]
+      asserts: ["Storage contains only key hashes and runtime authentication uses compare_digest."]
+    - tc_id: TC-NFR02-04
+      nfr: NFR-02
+      ac: AC-N2.4
+      layer: integration
+      test_function: test_nfr02_forbidden_responses_hide_resource_existence
+      test_file: 03-development/tests/integration/test_nfr02_security.py
+      cross_ref_frs: [FR-04, FR-10]
+      asserts: ["Existing and missing resource probes produce indistinguishable 403 bodies."]
+    - tc_id: TC-NFR02-05
+      nfr: NFR-02
+      ac: AC-N2.5
+      layer: integration
+      test_function: test_nfr02_failure_responses_expose_no_internals
+      test_file: 03-development/tests/integration/test_nfr02_security.py
+      cross_ref_frs: [FR-10]
+      asserts: ["Triggered failure responses expose no stack trace, SQL, or filesystem path."]
+    - tc_id: TC-NFR02-06
+      nfr: NFR-02
+      ac: AC-N2.6
+      layer: integration
+      test_function: test_nfr02_cors_defaults_deny_and_allowlist_is_explicit
+      test_file: 03-development/tests/integration/test_nfr02_security.py
+      asserts: ["Default CORS rejects origins and only explicitly configured origins receive allow headers."]
+    - tc_id: TC-NFR02-07
+      nfr: NFR-02
+      ac: AC-N2.7
+      layer: static
+      test_function: test_nfr02_bandit_has_no_high_or_medium_findings
+      test_file: 03-development/tests/static/test_nfr02_security.py
+      asserts: ["The canonical Bandit scan reports zero HIGH and zero MEDIUM findings."]
+
+    - tc_id: TC-NFR03-01
+      nfr: NFR-03
+      ac: AC-N3.1
+      layer: integration
+      test_function: test_nfr03_request_transaction_commits_or_rolls_back
+      test_file: 03-development/tests/integration/test_nfr03_reliability.py
+      cross_ref_frs: [FR-06]
+      asserts: ["A successful request commits and an injected failure rolls back within the request context."]
+    - tc_id: TC-NFR03-02
+      nfr: NFR-03
+      ac: AC-N3.2
+      layer: static
+      test_function: test_nfr03_source_has_no_forbidden_exception_handlers
+      test_file: 03-development/tests/static/test_nfr03_reliability.py
+      asserts: ["AST inspection finds no bare except and no except Exception handler whose body only passes."]
+    - tc_id: TC-NFR03-03
+      nfr: NFR-03
+      ac: AC-N3.3
+      layer: unit
+      test_function: test_nfr03_cancelled_error_propagates
+      test_file: 03-development/tests/unit/test_nfr03_reliability.py
+      cross_ref_frs: [FR-08]
+      asserts: ["Injected cancellation propagates as asyncio.CancelledError."]
+    - tc_id: TC-NFR03-04
+      nfr: NFR-03
+      ac: AC-N3.4
+      layer: integration
+      test_function: test_nfr03_db_failure_returns_bounded_readyz_503
+      test_file: 03-development/tests/integration/test_nfr03_reliability.py
+      cross_ref_frs: [FR-09, FR-10]
+      asserts: ["Database failure returns readiness 503 with database detail within a bounded time."]
+    - tc_id: TC-NFR03-05
+      nfr: NFR-03
+      ac: AC-N3.5
+      layer: integration
+      test_function: test_nfr03_timed_out_process_is_killed_and_reaped
+      test_file: 03-development/tests/integration/test_nfr03_reliability.py
+      cross_ref_frs: [FR-08]
+      asserts: ["A timed-out subprocess is killed, reaped, and absent from process inspection."]
+    - tc_id: TC-NFR03-06
+      nfr: NFR-03
+      ac: AC-N3.6
+      layer: integration
+      test_function: test_nfr03_failed_migration_preserves_revision_and_data
+      test_file: 03-development/tests/integration/test_nfr03_reliability.py
+      cross_ref_frs: [FR-07]
+      asserts: ["An injected migration failure rolls back and preserves the prior revision and data."]
+
+    - tc_id: TC-NFR04-01
+      nfr: NFR-04
+      ac: AC-N4.1
+      layer: integration
+      test_function: test_nfr04_sensitive_lines_are_fully_redacted
+      test_file: 03-development/tests/integration/test_nfr04_redaction.py
+      cross_ref_frs: [FR-02, FR-10]
+      asserts: ["Every canonical secret-pattern line becomes exactly [REDACTED] in tails, logs, and error output before persistence or emission."]
+    - tc_id: TC-NFR04-02
+      nfr: NFR-04
+      ac: AC-N4.2
+      layer: integration
+      test_function: test_nfr04_db_password_never_reaches_outputs
+      test_file: 03-development/tests/integration/test_nfr04_redaction.py
+      cross_ref_frs: [FR-09, FR-10]
+      asserts: ["Captured logs, errors, and metrics contain no configured database password fragment."]
+    - tc_id: TC-NFR04-03
+      nfr: NFR-04
+      ac: AC-N4.3
+      layer: e2e
+      test_function: test_nfr04_key_plaintext_appears_once_and_is_not_persisted
+      test_file: 03-development/tests/e2e/test_nfr04_key_secrecy.py
+      cross_ref_frs: [FR-03]
+      asserts: ["Created key plaintext appears once on CLI stdout and nowhere in persisted state or later output."]
+
+    - tc_id: TC-NFR05-01
+      nfr: NFR-05
+      ac: AC-N5.1
+      layer: static
+      test_function: test_nfr05_public_symbols_have_cited_docstrings
+      test_file: 03-development/tests/static/test_nfr05_documentation.py
+      asserts: ["Every public function and class has a docstring containing an FR or NFR citation."]
+    - tc_id: TC-NFR05-02
+      nfr: NFR-05
+      ac: AC-N5.2
+      layer: integration
+      test_function: test_nfr05_openapi_operations_have_summary_and_description
+      test_file: 03-development/tests/integration/test_nfr05_documentation.py
+      cross_ref_frs: [FR-01, FR-02, FR-09]
+      asserts: ["Every operation in the generated OpenAPI document has a non-empty summary and description."]
+
+    - tc_id: TC-NFR06-01
+      nfr: NFR-06
+      ac: AC-N6.1
+      layer: static
+      test_function: test_nfr06_importlinter_declares_canonical_boundaries
+      test_file: 03-development/tests/static/test_nfr06_architecture.py
+      cross_ref_frs: [FR-06]
+      asserts: [".importlinter declares api to service to repository to models layering and config/errors independence."]
+    - tc_id: TC-NFR06-02
+      nfr: NFR-06
+      ac: AC-N6.2
+      layer: static
+      test_function: test_nfr06_sqlalchemy_imports_are_repository_only
+      test_file: 03-development/tests/static/test_nfr06_architecture.py
+      cross_ref_frs: [FR-06]
+      asserts: ["The forbidden contract rejects SQLAlchemy imports outside repository modules."]
+    - tc_id: TC-NFR06-03
+      nfr: NFR-06
+      ac: AC-N6.3
+      layer: static
+      test_function: test_nfr06_lint_imports_passes_and_rejects_violation
+      test_file: 03-development/tests/static/test_nfr06_architecture.py
+      asserts: ["lint-imports passes production code and a controlled service or API SQLAlchemy import is rejected."]
+    - tc_id: TC-NFR06-04
+      nfr: NFR-06
+      ac: AC-N6.4
+      layer: static
+      test_function: test_nfr06_contract_has_no_boundary_weakening
+      test_file: 03-development/tests/static/test_nfr06_architecture.py
+      asserts: ["Architecture configuration has no missing contract, wildcard ignore, or weakened boundary."]
+
+    - tc_id: TC-NFR07-01
+      nfr: NFR-07
+      ac: AC-N7.1
+      layer: static
+      test_function: test_nfr07_dependencies_are_pinned_and_locked
+      test_file: 03-development/tests/static/test_nfr07_dependencies.py
+      asserts: ["Every direct runtime dependency is exact-pinned and every resolved transitive dependency is locked."]
+    - tc_id: TC-NFR07-02
+      nfr: NFR-07
+      ac: AC-N7.2
+      layer: static
+      test_function: test_nfr07_dependency_licenses_are_allowlisted
+      test_file: 03-development/tests/static/test_nfr07_dependencies.py
+      asserts: ["Every resolved dependency license belongs to the canonical allowlist."]
+    - tc_id: TC-NFR07-03
+      nfr: NFR-07
+      ac: AC-N7.3
+      layer: static
+      test_function: test_nfr07_pip_licenses_covers_complete_tree
+      test_file: 03-development/tests/static/test_nfr07_dependencies.py
+      asserts: ["Canonical pip-licenses evidence includes every direct and transitive dependency."]
+    - tc_id: TC-NFR07-04
+      nfr: NFR-07
+      ac: AC-N7.4
+      layer: static
+      test_function: test_nfr07_sbom_covers_complete_dependency_tree
+      test_file: 03-development/tests/static/test_nfr07_dependencies.py
+      asserts: ["SBOM entries cover the complete tree and each has name, version, license, and direct or transitive classification."]
+
+    - tc_id: TC-NFR08-01
+      nfr: NFR-08
+      ac: AC-N8.1
+      layer: static
+      test_function: test_nfr08_mutation_testing_feature_is_enabled
+      test_file: 03-development/tests/static/test_nfr08_mutation.py
+      asserts: ["Harness configuration sets features.mutation_testing to true."]
+    - tc_id: TC-NFR08-02
+      nfr: NFR-08
+      ac: AC-N8.2
+      layer: e2e
+      test_function: test_nfr08_mutmut_score_is_at_least_70
+      test_file: 03-development/tests/e2e/test_nfr08_mutation.py
+      asserts: ["Mutmut results calculate a mutation score of at least 70."]
+    - tc_id: TC-NFR08-03
+      nfr: NFR-08
+      ac: AC-N8.3
+      layer: static
+      test_function: test_nfr08_mutation_scope_and_rationale_are_exact
+      test_file: 03-development/tests/static/test_nfr08_mutation.py
+      asserts: ["Mutation paths are exactly service and repository and configuration records the execution-budget rationale."]
+
+    - tc_id: TC-NFR09-01
       nfr: NFR-09
       ac: AC-N9.1
+      layer: static
+      test_function: test_nfr09_requirement_tests_have_no_skip_or_stub
+      test_file: 03-development/tests/static/test_nfr09_test_governance.py
+      asserts: ["Requirement tests contain no skip, skipif, xfail, or assertion-free stub."]
+    - tc_id: TC-NFR09-02
+      nfr: NFR-09
+      ac: AC-N9.2
+      layer: e2e
+      test_function: test_nfr09_full_pytest_suite_passes_with_zero_skips
+      test_file: 03-development/tests/e2e/test_nfr09_test_governance.py
+      asserts: ["The canonical full pytest command succeeds and reports zero skipped tests."]
+    - tc_id: TC-NFR09-03
+      nfr: NFR-09
+      ac: AC-N9.3
+      layer: static
+      test_function: test_nfr09_every_test_has_explicit_assert
+      test_file: 03-development/tests/static/test_nfr09_test_governance.py
+      asserts: ["Exact-policy AST inspection reports zero test functions without an assert statement."]
+    - tc_id: TC-NFR09-04
+      nfr: NFR-09
+      ac: AC-N9.4
+      layer: static
+      test_function: test_nfr09_collection_has_no_prohibited_exclusions
+      test_file: 03-development/tests/static/test_nfr09_test_governance.py
+      asserts: ["Test configuration and canonical commands contain no prohibited collection exclusion."]
+    - tc_id: TC-NFR09-05
+      nfr: NFR-09
+      ac: AC-N9.5
       layer: integration
-      test_function: test_deployment_example  # EXAMPLE — replace
-      test_file: tests/integration/test_nfr09.py
-  coverage_summary:
-    total_test_cases: 4
-    by_fr:
-      FR-01: {tc_count: 2}
-      NFR-02: {tc_count: 1}
-      NFR-09: {tc_count: 1}
-    by_layer:
-      integration: {count: 2}
-      unit: {count: 1}
-      static: {count: 1}
+      test_function: test_nfr09_fr07_uses_real_sqlite_round_trip
+      test_file: 03-development/tests/integration/test_nfr09_test_governance.py
+      cross_ref_frs: [FR-07]
+      asserts: ["FR-07 executes on a real SQLite file and compares round-trip values without skipping."]
+    - tc_id: TC-NFR09-06
+      nfr: NFR-09
+      ac: AC-N9.6
+      layer: static
+      test_function: test_nfr09_verified_trace_requires_passing_result
+      test_file: 03-development/tests/static/test_nfr09_test_governance.py
+      asserts: ["A trace audit rejects every VERIFIED row lacking a passing result for its named test."]
+    - tc_id: TC-NFR09-07
+      nfr: NFR-09
+      ac: AC-N9.7
+      layer: e2e
+      test_function: test_nfr09_full_suite_reaches_100_percent_coverage
+      test_file: 03-development/tests/e2e/test_nfr09_test_governance.py
+      asserts: ["The canonical full coverage command reports 100 percent TOTAL source line coverage."]
 
-# ── fr_tests / cross_cutting ──────────────────────────────────────────────
-# The name-only view, read by spec_coverage._flatten_test_names (P1 Naming
-# Authority) and required by the P1→P2 handoff validator. Every name here
-# must also appear as a `tests:` entry above; these lists carry no layer, so
-# they cannot answer which NFR tests are unit or static.
+    - tc_id: TC-NFR10-01
+      nfr: NFR-10
+      ac: AC-N10.1
+      layer: e2e
+      test_function: test_nfr10_integration_suite_reaches_80_percent_coverage
+      test_file: 03-development/tests/e2e/test_nfr10_integration_governance.py
+      asserts: ["The integration-only suite reports at least 80 percent TOTAL source line coverage."]
+    - tc_id: TC-NFR10-02
+      nfr: NFR-10
+      ac: AC-N10.2
+      layer: static
+      test_function: test_nfr10_integration_tests_use_asgi_transport
+      test_file: 03-development/tests/static/test_nfr10_integration_governance.py
+      asserts: ["Integration tests construct AsyncClient with ASGITransport and never invoke handlers directly."]
+    - tc_id: TC-NFR10-03a
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_crud_full_chain
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-01]
+      asserts: ["The integration scenario completes the task CRUD chain through ASGI HTTP requests."]
+    - tc_id: TC-NFR10-03b
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_http_401_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-03, FR-10]
+      asserts: ["The integration scenario produces the canonical HTTP 401 response."]
+    - tc_id: TC-NFR10-03c
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_http_403_hides_existence_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-04, FR-10]
+      asserts: ["The integration scenario produces HTTP 403 without resource-existence disclosure."]
+    - tc_id: TC-NFR10-03d
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_http_404_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-01, FR-10]
+      asserts: ["The integration scenario produces the canonical HTTP 404 response."]
+    - tc_id: TC-NFR10-03e
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_http_409_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-01, FR-10]
+      asserts: ["The integration scenario produces the canonical HTTP 409 response."]
+    - tc_id: TC-NFR10-03f
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_http_422_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-01, FR-10]
+      asserts: ["The integration scenario produces the canonical HTTP 422 response."]
+    - tc_id: TC-NFR10-03g
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_http_429_retry_after_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-05, FR-10]
+      asserts: ["The integration scenario produces HTTP 429 with a valid Retry-After header."]
+    - tc_id: TC-NFR10-03h
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_http_503_readiness_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-09, FR-10]
+      asserts: ["The integration scenario produces canonical HTTP 503 for failed readiness."]
+    - tc_id: TC-NFR10-03i
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_real_migration_round_trip_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-07]
+      asserts: ["The integration scenario completes a real database migration round trip without data loss."]
+    - tc_id: TC-NFR10-03j
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_rate_limit_trigger_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-05]
+      asserts: ["The integration scenario exhausts a bucket and triggers rate limiting."]
+    - tc_id: TC-NFR10-03k
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_rate_limit_recovery_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-05]
+      asserts: ["The integration scenario observes request admission after token refill."]
+    - tc_id: TC-NFR10-03l
+      nfr: NFR-10
+      ac: AC-N10.3
+      layer: integration
+      test_function: test_nfr10_graceful_drain_scenario
+      test_file: 03-development/tests/integration/test_nfr10_scenarios.py
+      cross_ref_frs: [FR-08]
+      asserts: ["The integration scenario shuts down while work is active and observes graceful drain."]
+
+    - tc_id: TC-NFR11-01
+      nfr: NFR-11
+      ac: AC-N11.1
+      layer: static
+      test_function: test_nfr11_lloc_weighted_project_mi_is_at_least_80
+      test_file: 03-development/tests/static/test_nfr11_readability.py
+      asserts: ["LLOC-weighted project maintainability index is at least 80."]
+    - tc_id: TC-NFR11-02
+      nfr: NFR-11
+      ac: AC-N11.2
+      layer: static
+      test_function: test_nfr11_function_complexity_is_at_most_10
+      test_file: 03-development/tests/static/test_nfr11_readability.py
+      asserts: ["Every function has cyclomatic complexity at most 10."]
+    - tc_id: TC-NFR11-03
+      nfr: NFR-11
+      ac: AC-N11.3
+      layer: static
+      test_function: test_nfr11_file_and_directory_sizes_are_bounded
+      test_file: 03-development/tests/static/test_nfr11_readability.py
+      asserts: ["Every file has at most 400 lines and every directory has at most 15 files."]
+    - tc_id: TC-NFR11-04
+      nfr: NFR-11
+      ac: AC-N11.4
+      layer: static
+      test_function: test_nfr11_handlers_are_small_and_delegate_business_logic
+      test_file: 03-development/tests/static/test_nfr11_readability.py
+      asserts: ["Every API handler has at most 40 lines and business logic resides in service modules."]
+
+    - tc_id: TC-NFR12-01
+      nfr: NFR-12
+      ac: AC-N12.1
+      layer: static
+      test_function: test_nfr12_verify_system_orders_required_steps
+      test_file: 03-development/tests/static/test_nfr12_deployment.py
+      asserts: ["verify-system orders upgrade, full tests, service smoke, downgrade-base, and re-upgrade."]
+    - tc_id: TC-NFR12-02
+      nfr: NFR-12
+      ac: AC-N12.2
+      layer: e2e
+      test_function: test_nfr12_verify_system_exits_zero_with_pass_marker
+      test_file: 03-development/tests/e2e/test_nfr12_deployment.py
+      asserts: ["make verify-system exits zero and emits the exact verify-system PASS marker."]
+    - tc_id: TC-NFR12-03
+      nfr: NFR-12
+      ac: AC-N12.3
+      layer: static
+      test_function: test_nfr12_env_example_declares_twelve_commented_variables
+      test_file: 03-development/tests/static/test_nfr12_deployment.py
+      asserts: [".env.example declares exactly the 12 canonical TASKQ variables and comments each one."]
+    - tc_id: TC-NFR12-04
+      nfr: NFR-12
+      ac: AC-N12.4
+      layer: e2e
+      test_function: test_nfr12_module_cli_commands_function
+      test_file: 03-development/tests/e2e/test_nfr12_deployment.py
+      asserts: ["The module CLI exposes functioning migrate, seed, and healthcheck commands."]
+    - tc_id: TC-NFR12-05
+      nfr: NFR-12
+      ac: AC-N12.5
+      layer: e2e
+      test_function: test_nfr12_uvicorn_target_and_config_domains_work
+      test_file: 03-development/tests/e2e/test_nfr12_deployment.py
+      asserts: ["The canonical uvicorn target starts and host, port, log-level, and log-format defaults and value domains match the SRS."]
+
+  coverage_summary:
+    total_test_cases: 151
+    by_fr:
+      FR-01: {tc_count: 15}
+      FR-02: {tc_count: 8}
+      FR-03: {tc_count: 8}
+      FR-04: {tc_count: 6}
+      FR-05: {tc_count: 7}
+      FR-06: {tc_count: 6}
+      FR-07: {tc_count: 15}
+      FR-08: {tc_count: 6}
+      FR-09: {tc_count: 5}
+      FR-10: {tc_count: 13}
+      NFR-01: {tc_count: 3}
+      NFR-02: {tc_count: 7}
+      NFR-03: {tc_count: 6}
+      NFR-04: {tc_count: 3}
+      NFR-05: {tc_count: 2}
+      NFR-06: {tc_count: 4}
+      NFR-07: {tc_count: 4}
+      NFR-08: {tc_count: 3}
+      NFR-09: {tc_count: 7}
+      NFR-10: {tc_count: 14}
+      NFR-11: {tc_count: 4}
+      NFR-12: {tc_count: 5}
+    by_layer:
+      integration: {count: 106}
+      unit: {count: 6}
+      static: {count: 30}
+      e2e: {count: 9}
+
+# Name-only compatibility view consumed by the P1→P2 handoff and coverage tooling.
 fr_tests:
   FR-01:
-    unit:
-      - test_fr01_example_unit  # EXAMPLE — replace
     integration:
-      - test_fr01_example_integration  # EXAMPLE — replace
+      - test_fr01_create_task_returns_201_with_id
+      - test_fr01_get_task_returns_full_record
+      - test_fr01_list_filters_by_status
+      - test_fr01_list_applies_limit
+      - test_fr01_list_continues_from_cursor
+      - test_fr01_list_uses_cursor_not_offset
+      - test_fr01_list_defaults_limit_to_50
+      - test_fr01_list_accepts_limit_200
+      - test_fr01_list_rejects_limit_201
+      - test_fr01_delete_task_and_results_atomically
+      - test_fr01_rejects_canonical_empty_value
+      - test_fr01_rejects_value_over_1000
+      - test_fr01_rejects_blacklisted_injection_value
+      - test_fr01_unknown_task_returns_not_found_problem
+      - test_fr01_duplicate_name_returns_conflict_problem
+  FR-02:
+    unit:
+      - test_fr02_subprocess_uses_split_args_without_shell
+    integration:
+      - test_fr02_submit_run_returns_202_with_run_id
+      - test_fr02_subprocess_honors_task_timeout
+      - test_fr02_successful_run_transitions_to_done
+      - test_fr02_nonzero_run_transitions_to_failed
+      - test_fr02_overdue_run_transitions_to_timeout
+      - test_fr02_completed_run_persists_result_fields
+      - test_fr02_run_history_is_task_scoped_and_newest_first
+  FR-03:
+    unit:
+      - test_fr03_key_comparison_uses_compare_digest
+    integration:
+      - test_fr03_missing_api_key_returns_unauthenticated
+      - test_fr03_invalid_api_key_returns_unauthenticated
+      - test_fr03_storage_contains_only_sha256_key_hash
+      - test_fr03_revoked_key_is_rejected
+      - test_fr03_healthz_requires_no_key
+      - test_fr03_readyz_requires_no_key
+    e2e:
+      - test_fr03_key_create_prints_plaintext_once
+  FR-04:
+    integration:
+      - test_fr04_read_scope_allows_only_read_operations
+      - test_fr04_write_scope_allows_read_and_write
+      - test_fr04_admin_scope_allows_all_operations
+      - test_fr04_insufficient_scope_returns_forbidden
+      - test_fr04_forbidden_response_hides_existence
+    static:
+      - test_fr04_all_v1_routes_share_authorization_dependency
+  FR-05:
+    unit:
+      - test_fr05_each_token_has_independent_burst_capacity
+      - test_fr05_bucket_refills_at_configured_rate
+    integration:
+      - test_fr05_over_limit_returns_429_with_retry_after
+      - test_fr05_bucket_state_persists_across_requests
+      - test_fr05_concurrent_bucket_updates_do_not_over_admit
+      - test_fr05_healthz_is_exempt_after_rate_exhaustion
+      - test_fr05_readyz_is_exempt_after_rate_exhaustion
+  FR-06:
+    unit:
+      - test_fr06_engine_uses_pool_settings_and_default_url
+    integration:
+      - test_fr06_request_session_commits_on_success
+      - test_fr06_request_session_rolls_back_on_exception
+      - test_fr06_relationship_loading_has_constant_query_count
+    static:
+      - test_fr06_data_access_stays_in_repositories
+      - test_fr06_queries_are_orm_or_parameterized
+  FR-07:
+    integration:
+      - test_fr07_v1_upgrade_and_downgrade_execute
+      - test_fr07_v2_upgrade_and_downgrade_execute
+      - test_fr07_v3_upgrade_and_downgrade_execute
+      - test_fr07_v1_upgrade_exposes_resolved_schema
+      - test_fr07_v1_downgrade_removes_resolved_schema
+      - test_fr07_v2_round_trip_preserves_v1_data
+      - test_fr07_v3_upgrade_migrates_result_json
+      - test_fr07_v3_downgrade_restores_result_json
+      - test_fr07_upgrade_base_to_head_exits_zero
+      - test_fr07_downgrade_head_to_base_leaves_no_tables
+      - test_fr07_real_sqlite_round_trip_preserves_values
+      - test_fr07_offline_upgrade_sql_contains_operations
+      - test_fr07_offline_downgrade_sql_contains_operations
+      - test_fr07_head_schema_has_canonical_tables_and_fields
+    static:
+      - test_fr07_migrations_have_no_raw_drop_shortcut
+  FR-08:
+    integration:
+      - test_fr08_shutdown_drains_work_within_timeout
+      - test_fr08_shutdown_marks_overdue_work_interrupted
+      - test_fr08_active_processes_never_exceed_limit
+      - test_fr08_excess_submissions_wait_for_capacity
+      - test_fr08_timeout_kills_and_reaps_process
+      - test_fr08_cancellation_propagates_without_http_500
+  FR-09:
+    integration:
+      - test_fr09_healthz_returns_exact_ok_response
+      - test_fr09_readyz_returns_200_at_migration_head
+      - test_fr09_readyz_db_failure_returns_503
+      - test_fr09_readyz_revision_lag_returns_503
+      - test_fr09_admin_metrics_expose_required_measurements
+  FR-10:
+    integration:
+      - test_fr10_all_non_2xx_use_problem_json
+      - test_fr10_problem_body_has_six_required_fields
+      - test_fr10_problem_detail_discloses_no_internals
+      - test_fr10_correlation_id_matches_header_body_and_log
+      - test_fr10_validation_maps_to_422_problem
+      - test_fr10_authentication_maps_to_401_problem
+      - test_fr10_authorization_maps_to_403_problem
+      - test_fr10_missing_task_maps_to_404_problem
+      - test_fr10_name_conflict_maps_to_409_problem
+      - test_fr10_rate_limit_maps_to_429_problem
+      - test_fr10_not_ready_maps_to_503_problem
+      - test_fr10_unexpected_exception_maps_to_safe_500
+      - test_fr10_timeout_is_200_task_status
 
 cross_cutting:
-  security:
-    - test_security_example  # EXAMPLE — replace
-  deployment:
-    - test_deployment_example  # EXAMPLE — replace
+  NFR-01:
+    integration:
+      - test_nfr01_single_task_get_p95_under_30ms
+      - test_nfr01_fifty_task_list_p95_under_80ms
+      - test_nfr01_list_query_count_is_constant
+  NFR-02:
+    static:
+      - test_nfr02_source_has_no_prohibited_execution_calls
+      - test_nfr02_source_has_no_interpolated_sql
+      - test_nfr02_bandit_has_no_high_or_medium_findings
+    integration:
+      - test_nfr02_keys_are_hashed_and_compared_constantly
+      - test_nfr02_forbidden_responses_hide_resource_existence
+      - test_nfr02_failure_responses_expose_no_internals
+      - test_nfr02_cors_defaults_deny_and_allowlist_is_explicit
+  NFR-03:
+    unit:
+      - test_nfr03_cancelled_error_propagates
+    static:
+      - test_nfr03_source_has_no_forbidden_exception_handlers
+    integration:
+      - test_nfr03_request_transaction_commits_or_rolls_back
+      - test_nfr03_db_failure_returns_bounded_readyz_503
+      - test_nfr03_timed_out_process_is_killed_and_reaped
+      - test_nfr03_failed_migration_preserves_revision_and_data
+  NFR-04:
+    integration:
+      - test_nfr04_sensitive_lines_are_fully_redacted
+      - test_nfr04_db_password_never_reaches_outputs
+    e2e:
+      - test_nfr04_key_plaintext_appears_once_and_is_not_persisted
+  NFR-05:
+    static:
+      - test_nfr05_public_symbols_have_cited_docstrings
+    integration:
+      - test_nfr05_openapi_operations_have_summary_and_description
+  NFR-06:
+    static:
+      - test_nfr06_importlinter_declares_canonical_boundaries
+      - test_nfr06_sqlalchemy_imports_are_repository_only
+      - test_nfr06_lint_imports_passes_and_rejects_violation
+      - test_nfr06_contract_has_no_boundary_weakening
+  NFR-07:
+    static:
+      - test_nfr07_dependencies_are_pinned_and_locked
+      - test_nfr07_dependency_licenses_are_allowlisted
+      - test_nfr07_pip_licenses_covers_complete_tree
+      - test_nfr07_sbom_covers_complete_dependency_tree
+  NFR-08:
+    static:
+      - test_nfr08_mutation_testing_feature_is_enabled
+      - test_nfr08_mutation_scope_and_rationale_are_exact
+    e2e:
+      - test_nfr08_mutmut_score_is_at_least_70
+  NFR-09:
+    static:
+      - test_nfr09_requirement_tests_have_no_skip_or_stub
+      - test_nfr09_every_test_has_explicit_assert
+      - test_nfr09_collection_has_no_prohibited_exclusions
+      - test_nfr09_verified_trace_requires_passing_result
+    integration:
+      - test_nfr09_fr07_uses_real_sqlite_round_trip
+    e2e:
+      - test_nfr09_full_pytest_suite_passes_with_zero_skips
+      - test_nfr09_full_suite_reaches_100_percent_coverage
+  NFR-10:
+    static:
+      - test_nfr10_integration_tests_use_asgi_transport
+    integration:
+      - test_nfr10_crud_full_chain
+      - test_nfr10_http_401_scenario
+      - test_nfr10_http_403_hides_existence_scenario
+      - test_nfr10_http_404_scenario
+      - test_nfr10_http_409_scenario
+      - test_nfr10_http_422_scenario
+      - test_nfr10_http_429_retry_after_scenario
+      - test_nfr10_http_503_readiness_scenario
+      - test_nfr10_real_migration_round_trip_scenario
+      - test_nfr10_rate_limit_trigger_scenario
+      - test_nfr10_rate_limit_recovery_scenario
+      - test_nfr10_graceful_drain_scenario
+    e2e:
+      - test_nfr10_integration_suite_reaches_80_percent_coverage
+  NFR-11:
+    static:
+      - test_nfr11_lloc_weighted_project_mi_is_at_least_80
+      - test_nfr11_function_complexity_is_at_most_10
+      - test_nfr11_file_and_directory_sizes_are_bounded
+      - test_nfr11_handlers_are_small_and_delegate_business_logic
+  NFR-12:
+    static:
+      - test_nfr12_verify_system_orders_required_steps
+      - test_nfr12_env_example_declares_twelve_commented_variables
+    e2e:
+      - test_nfr12_verify_system_exits_zero_with_pass_marker
+      - test_nfr12_module_cli_commands_function
+      - test_nfr12_uvicorn_target_and_config_domains_work

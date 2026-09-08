@@ -1,0 +1,1777 @@
+{
+  "deliverable": "/Users/johnny/projects/taskq-sol/01-requirements/SRS.md",
+  "canonical": "/Users/johnny/projects/taskq-sol/SPEC.md",
+  "mode": "srs_vs_spec",
+  "spec_present": true,
+  "summary": {
+    "total_ac": 132,
+    "total_acceptance_criteria": 110,
+    "canonical_units": 2,
+    "canonical_unit_max_chars": 7406,
+    "verdict_counts": {
+      "transcribed": 0,
+      "overlaps_canonical": 17,
+      "cites_canonical": 67,
+      "unmatched_and_uncited": 48
+    },
+    "citation_counts": {
+      "cited": 67,
+      "resolves": 67,
+      "does_not_resolve": 0
+    },
+    "over_spec_threshold": 0.7,
+    "high_score_count": 67
+  },
+  "fr_coverage": {
+    "in_spec_only": [],
+    "in_srs_only": [],
+    "in_both": [
+      "FR-01",
+      "FR-02",
+      "FR-03",
+      "FR-04",
+      "FR-05",
+      "FR-06",
+      "FR-07",
+      "FR-08",
+      "FR-09",
+      "FR-10"
+    ]
+  },
+  "config_keys": {
+    "declared": [
+      "TASKQ_CORS_ORIGINS",
+      "TASKQ_DB_POOL_SIZE",
+      "TASKQ_DB_URL",
+      "TASKQ_DRAIN_TIMEOUT",
+      "TASKQ_HOST",
+      "TASKQ_LOG_FORMAT",
+      "TASKQ_LOG_LEVEL",
+      "TASKQ_MAX_CONCURRENT",
+      "TASKQ_PORT",
+      "TASKQ_RATE_BURST",
+      "TASKQ_RATE_PER_SEC",
+      "TASKQ_TASK_TIMEOUT"
+    ],
+    "absent_from_srs": []
+  },
+  "machine_block_parity": [],
+  "per_ac": [
+    {
+      "label": "FR-01",
+      "fr_id": "FR-01",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-1.1",
+      "fr_id": "FR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.625,
+        "best_match_ratio": 0.375,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-1.2",
+      "fr_id": "FR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.889,
+        "best_match_ratio": 0.111,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 83 — Canonical endpoint table row transcribed as prose without changing behavior.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-1.3",
+      "fr_id": "FR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.864,
+        "best_match_ratio": 0.136,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 84 — Canonical endpoint table row transcribed as prose without changing query parameters.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-1.4",
+      "fr_id": "FR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.467,
+        "best_match_ratio": 0.533,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-1.5",
+      "fr_id": "FR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.895,
+        "best_match_ratio": 0.105,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 85 — Canonical endpoint table row transcribed as prose without changing scope or transaction boundary.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-1.6",
+      "fr_id": "FR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.538,
+        "best_match_ratio": 0.462,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-1.7",
+      "fr_id": "FR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.643,
+        "best_match_ratio": 0.357,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-1.8",
+      "fr_id": "FR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.864,
+        "best_match_ratio": 0.136,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 87-87; lines 340-340 — Name uniqueness is paired with the canonical 409 conflict mapping.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "FR-02",
+      "fr_id": "FR-02",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.938,
+        "best_match_ratio": 0.062,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 92-99 — Canonical bullets are consolidated into a requirement summary; criteria retain each behavior.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-2.1",
+      "fr_id": "FR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.538,
+        "best_match_ratio": 0.462,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-2.2",
+      "fr_id": "FR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.87,
+        "best_match_ratio": 0.13,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 95-95; lines 292-292 — Canonical execution and timeout clauses are paired with the canonical default value.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-2.3",
+      "fr_id": "FR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.875,
+        "best_match_ratio": 0.125,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 96 — Canonical state-machine notation is transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-2.4",
+      "fr_id": "FR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.692,
+        "best_match_ratio": 0.308,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-2.5",
+      "fr_id": "FR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.9,
+        "best_match_ratio": 0.1,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 98 — Canonical history endpoint bullet is transcribed as prose without changing ordering.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "FR-03",
+      "fr_id": "FR-03",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.9,
+        "best_match_ratio": 0.1,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 100-107 — Canonical authentication bullets are consolidated into a requirement summary; criteria retain each behavior.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-3.1",
+      "fr_id": "FR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.611,
+        "best_match_ratio": 0.389,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-3.2",
+      "fr_id": "FR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.893,
+        "best_match_ratio": 0.107,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 103-103; lines 373-373 — Canonical storage and comparison clauses are paired with their canonical table-verification expectation.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-3.3",
+      "fr_id": "FR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-3.4",
+      "fr_id": "FR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-3.5",
+      "fr_id": "FR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.875,
+        "best_match_ratio": 0.125,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 106 — Canonical unauthenticated endpoint exception is transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "FR-04",
+      "fr_id": "FR-04",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-4.1",
+      "fr_id": "FR-04",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.85,
+        "best_match_ratio": 0.15,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 110 — Canonical scope hierarchy is restated in prose without changing inclusion semantics.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-4.2",
+      "fr_id": "FR-04",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.429,
+        "best_match_ratio": 0.571,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-4.3",
+      "fr_id": "FR-04",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.9,
+        "best_match_ratio": 0.1,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 112 — Canonical single-dependency implementation boundary and named verification are kept together.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "FR-05",
+      "fr_id": "FR-05",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-5.1",
+      "fr_id": "FR-05",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.895,
+        "best_match_ratio": 0.105,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 116-116; lines 295-296 — Canonical token-bucket variables are paired with defaults from the canonical configuration table.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-5.2",
+      "fr_id": "FR-05",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.75,
+        "best_match_ratio": 0.25,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 117-117; lines 341-341; lines 364-364 — Canonical rate-limit response is paired with its canonical trigger example and error type.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-5.3",
+      "fr_id": "FR-05",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.444,
+        "best_match_ratio": 0.556,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-5.4",
+      "fr_id": "FR-05",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.625,
+        "best_match_ratio": 0.375,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "FR-06",
+      "fr_id": "FR-06",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.95,
+        "best_match_ratio": 0.05,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 121-128 — Canonical persistence bullets are consolidated into a requirement summary; criteria retain each boundary.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-6.1",
+      "fr_id": "FR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.625,
+        "best_match_ratio": 0.375,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-6.2",
+      "fr_id": "FR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.462,
+        "best_match_ratio": 0.538,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-6.3",
+      "fr_id": "FR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.333,
+        "best_match_ratio": 0.667,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-6.4",
+      "fr_id": "FR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.875,
+        "best_match_ratio": 0.125,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 126 — Canonical eager-loading requirement is transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-6.5",
+      "fr_id": "FR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.913,
+        "best_match_ratio": 0.087,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 127-127; lines 290-291 — Canonical pool settings are paired with defaults from the canonical configuration table.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "FR-07",
+      "fr_id": "FR-07",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.571,
+        "best_match_ratio": 0.429,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-7.1",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.571,
+        "best_match_ratio": 0.429,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-7.2",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.833,
+        "best_match_ratio": 0.167,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 135-135; lines 312-312 — Canonical v1 row is retained verbatim in substance while its internal conflict is deferred to NFR-99.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-7.3",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.615,
+        "best_match_ratio": 0.385,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-7.4",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.643,
+        "best_match_ratio": 0.357,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-7.5",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.538,
+        "best_match_ratio": 0.462,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-7.6",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.545,
+        "best_match_ratio": 0.455,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-7.7",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.6,
+        "best_match_ratio": 0.4,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-7.8",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.4,
+        "best_match_ratio": 0.6,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-7.9",
+      "fr_id": "FR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.875,
+        "best_match_ratio": 0.125,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 303-314 — Canonical schema table rows are referenced as one head-schema criterion without adding fields.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "FR-08",
+      "fr_id": "FR-08",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.625,
+        "best_match_ratio": 0.375,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-8.1",
+      "fr_id": "FR-08",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.625,
+        "best_match_ratio": 0.375,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-8.2",
+      "fr_id": "FR-08",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.6,
+        "best_match_ratio": 0.4,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-8.3",
+      "fr_id": "FR-08",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.792,
+        "best_match_ratio": 0.208,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 148-148 — Canonical timeout cleanup clause is paired with its canonical orphan-process acceptance target.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-8.4",
+      "fr_id": "FR-08",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.571,
+        "best_match_ratio": 0.429,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "FR-09",
+      "fr_id": "FR-09",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.95,
+        "best_match_ratio": 0.05,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 151-160 — Canonical endpoint table is consolidated into a requirement summary; criteria retain endpoint behavior.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-9.1",
+      "fr_id": "FR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.826,
+        "best_match_ratio": 0.174,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 155 — Canonical health endpoint table row is transcribed as prose without changing response content.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-9.2",
+      "fr_id": "FR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.63,
+        "best_match_ratio": 0.37,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-9.3",
+      "fr_id": "FR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.636,
+        "best_match_ratio": 0.364,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "FR-10",
+      "fr_id": "FR-10",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.6,
+        "best_match_ratio": 0.4,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.1",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.5,
+        "best_match_ratio": 0.5,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.2",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.643,
+        "best_match_ratio": 0.357,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.3",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.5,
+        "best_match_ratio": 0.5,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.4",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.6,
+        "best_match_ratio": 0.4,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.5",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.615,
+        "best_match_ratio": 0.385,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.6",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.538,
+        "best_match_ratio": 0.462,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.7",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.615,
+        "best_match_ratio": 0.385,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.8",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.842,
+        "best_match_ratio": 0.158,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 167-167; lines 339-339 — Canonical status mapping is paired with the canonical error type.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-10.9",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.842,
+        "best_match_ratio": 0.158,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 167-167; lines 340-340 — Canonical status mapping is paired with the canonical error type.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-10.10",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.615,
+        "best_match_ratio": 0.385,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.11",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.643,
+        "best_match_ratio": 0.357,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.12",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-10.13",
+      "fr_id": "FR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.429,
+        "best_match_ratio": 0.571,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "NFR-01",
+      "fr_id": "NFR-01",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-01 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N1.1",
+      "fr_id": "NFR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.767,
+        "best_match_ratio": 0.233,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 179-182 — Canonical latency target and named measurement method are combined without changing the threshold.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N1.2",
+      "fr_id": "NFR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.778,
+        "best_match_ratio": 0.222,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 180-182 — Canonical latency target and named measurement method are combined without changing the threshold.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N1.3",
+      "fr_id": "NFR-01",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.63,
+        "best_match_ratio": 0.37,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "NFR-02",
+      "fr_id": "NFR-02",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-02 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N2.1",
+      "fr_id": "NFR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.882,
+        "best_match_ratio": 0.118,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 187-187; lines 371-371 — Canonical prohibition is paired with the exact verifier named by the canonical acceptance table.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N2.2",
+      "fr_id": "NFR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.5,
+        "best_match_ratio": 0.5,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N2.3",
+      "fr_id": "NFR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 189 — Canonical API-key storage and comparison clauses are transcribed as one criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N2.4",
+      "fr_id": "NFR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.647,
+        "best_match_ratio": 0.353,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N2.5",
+      "fr_id": "NFR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.684,
+        "best_match_ratio": 0.316,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N2.6",
+      "fr_id": "NFR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.808,
+        "best_match_ratio": 0.192,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 192-192 — Canonical CORS rule is paired with the canonical default value.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N2.7",
+      "fr_id": "NFR-02",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 193 — Canonical Bandit command and zero-severity target are transcribed as one criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "NFR-03",
+      "fr_id": "NFR-03",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-03 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N3.1",
+      "fr_id": "NFR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.64,
+        "best_match_ratio": 0.36,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N3.2",
+      "fr_id": "NFR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.885,
+        "best_match_ratio": 0.115,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 199 — Canonical forbidden exception forms are transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N3.3",
+      "fr_id": "NFR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N3.4",
+      "fr_id": "NFR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.774,
+        "best_match_ratio": 0.226,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 201 — Canonical readiness failure and bounded-retry requirements are retained together.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N3.5",
+      "fr_id": "NFR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.688,
+        "best_match_ratio": 0.312,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N3.6",
+      "fr_id": "NFR-03",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.632,
+        "best_match_ratio": 0.368,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "NFR-04",
+      "fr_id": "NFR-04",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-04 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N4.1",
+      "fr_id": "NFR-04",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.854,
+        "best_match_ratio": 0.146,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 208-209 — Canonical targets, regex and whole-line replacement behavior are transcribed as one criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N4.2",
+      "fr_id": "NFR-04",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.857,
+        "best_match_ratio": 0.143,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 210-210; lines 375-375 — Canonical disclosure boundary is paired with its canonical acceptance scan target.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N4.3",
+      "fr_id": "NFR-04",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.619,
+        "best_match_ratio": 0.381,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "NFR-05",
+      "fr_id": "NFR-05",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-05 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N5.1",
+      "fr_id": "NFR-05",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N5.2",
+      "fr_id": "NFR-05",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.65,
+        "best_match_ratio": 0.35,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "NFR-06",
+      "fr_id": "NFR-06",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-06 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N6.1",
+      "fr_id": "NFR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.69,
+        "best_match_ratio": 0.31,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N6.2",
+      "fr_id": "NFR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.7,
+        "best_match_ratio": 0.3,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N6.3",
+      "fr_id": "NFR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.625,
+        "best_match_ratio": 0.375,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N6.4",
+      "fr_id": "NFR-06",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.806,
+        "best_match_ratio": 0.194,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 231 — Canonical anti-weakening prohibitions are transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "NFR-07",
+      "fr_id": "NFR-07",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-07 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N7.1",
+      "fr_id": "NFR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.692,
+        "best_match_ratio": 0.308,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N7.2",
+      "fr_id": "NFR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.633,
+        "best_match_ratio": 0.367,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N7.3",
+      "fr_id": "NFR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.774,
+        "best_match_ratio": 0.226,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 238 — Canonical complete-tree scope and evidence command are transcribed as one criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N7.4",
+      "fr_id": "NFR-07",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.65,
+        "best_match_ratio": 0.35,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "NFR-08",
+      "fr_id": "NFR-08",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-08 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N8.1",
+      "fr_id": "NFR-08",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.852,
+        "best_match_ratio": 0.148,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 244 — Canonical configuration path and feature flag are transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N8.2",
+      "fr_id": "NFR-08",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N8.3",
+      "fr_id": "NFR-08",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.808,
+        "best_match_ratio": 0.192,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 246 — Canonical mutation scope and required rationale are transcribed as one criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "NFR-09",
+      "fr_id": "NFR-09",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-09 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N9.1",
+      "fr_id": "NFR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.812,
+        "best_match_ratio": 0.188,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 251 — Canonical forbidden test forms are transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N9.2",
+      "fr_id": "NFR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.867,
+        "best_match_ratio": 0.133,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 252-252; lines 356-356 — Canonical test command and zero-skipped target are paired with the canonical all-green expectation.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N9.3",
+      "fr_id": "NFR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.938,
+        "best_match_ratio": 0.062,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 253 — Canonical per-test assertion and zero-assert count are transcribed as one criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N9.4",
+      "fr_id": "NFR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.867,
+        "best_match_ratio": 0.133,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 254 — Canonical anti-exclusion forms are transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N9.5",
+      "fr_id": "NFR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.667,
+        "best_match_ratio": 0.333,
+        "derived_present": false,
+        "verdict": "unmatched_and_uncited",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N9.6",
+      "fr_id": "NFR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.917,
+        "best_match_ratio": 0.083,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 256 — Canonical VERIFIED precondition is transcribed as a standalone traceability criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N9.7",
+      "fr_id": "NFR-09",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 357 — Canonical coverage command and TOTAL target are transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "NFR-10",
+      "fr_id": "NFR-10",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-10 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N10.1",
+      "fr_id": "NFR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.909,
+        "best_match_ratio": 0.091,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 261 — Canonical integration-suite path and line-coverage threshold are transcribed as one criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N10.2",
+      "fr_id": "NFR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.743,
+        "best_match_ratio": 0.257,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 262 — Canonical HTTP transport and forbidden direct-call boundary are transcribed together.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N10.3",
+      "fr_id": "NFR-10",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.484,
+        "best_match_ratio": 0.516,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "NFR-11",
+      "fr_id": "NFR-11",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-11 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N11.1",
+      "fr_id": "NFR-11",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.87,
+        "best_match_ratio": 0.13,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 268 — Canonical LLOC-weighted MI threshold is transcribed as a standalone criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N11.2",
+      "fr_id": "NFR-11",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.92,
+        "best_match_ratio": 0.08,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 268 — Canonical per-function CC threshold is split into its own stable criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N11.3",
+      "fr_id": "NFR-11",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.864,
+        "best_match_ratio": 0.136,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 269 — Canonical file and directory size limits are transcribed together.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N11.4",
+      "fr_id": "NFR-11",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.846,
+        "best_match_ratio": 0.154,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 270 — Canonical handler-size and service-layer boundary are transcribed together.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "NFR-12",
+      "fr_id": "NFR-12",
+      "unit": "requirement",
+      "score": {
+        "over_spec_score": 0.8,
+        "best_match_ratio": 0.2,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: NFR-12 — Canonical NFR is decomposed into stable criteria; its dimension is cross-checked against the current roster.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N12.1",
+      "fr_id": "NFR-12",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.769,
+        "best_match_ratio": 0.231,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 275-279 — Canonical ordered target steps are transcribed as one criterion.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N12.2",
+      "fr_id": "NFR-12",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.875,
+        "best_match_ratio": 0.125,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md line 280 — Canonical exit status and stdout marker are transcribed together.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N12.3",
+      "fr_id": "NFR-12",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.862,
+        "best_match_ratio": 0.138,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 286-302; lines 381-381 — Canonical environment-count command is paired with the canonical 12-variable declaration table.",
+        "citation_resolves": true
+      }
+    },
+    {
+      "label": "AC-N12.4",
+      "fr_id": "NFR-12",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.55,
+        "best_match_ratio": 0.45,
+        "derived_present": false,
+        "verdict": "overlaps_canonical",
+        "citation": null,
+        "citation_resolves": null
+      }
+    },
+    {
+      "label": "AC-N12.5",
+      "fr_id": "NFR-12",
+      "unit": "criterion",
+      "score": {
+        "over_spec_score": 0.753,
+        "best_match_ratio": 0.247,
+        "derived_present": true,
+        "verdict": "cites_canonical",
+        "citation": "DERIVED: SPEC.md lines 53-53; lines 298-301 — Canonical ASGI command and configuration defaults/value sets are grouped as startup verification.",
+        "citation_resolves": true
+      }
+    }
+  ]
+}
