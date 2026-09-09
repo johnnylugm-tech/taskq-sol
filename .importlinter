@@ -1,0 +1,16 @@
+[importlinter]
+root_package = taskq_api
+
+[importlinter:contract:layers_api_service_repository_models]
+type = layers
+layers =
+    taskq_api.api
+    taskq_api.service
+    taskq_api.repository
+    taskq_api.models
+
+[importlinter:contract:config_and_errors_are_independence_modules]
+type = independence
+modules =
+    taskq_api.config
+    taskq_api.errors
