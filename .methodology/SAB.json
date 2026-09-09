@@ -1,0 +1,286 @@
+{
+  "version": "1.0",
+  "created_at": "2026-09-09",
+  "phase": 2,
+  "project": "taskq-api",
+  "layers": [
+    {
+      "name": "api",
+      "modules": [
+        "taskq_api.app",
+        "taskq_api.bootstrap",
+        "taskq_api.__main__",
+        "taskq_api.api.dependencies",
+        "taskq_api.api.tasks",
+        "taskq_api.api.runs",
+        "taskq_api.api.health",
+        "taskq_api.api.metrics",
+        "taskq_api.api.problems"
+      ],
+      "allowed_dependencies": [
+        "service",
+        "repository",
+        "models",
+        "independence"
+      ]
+    },
+    {
+      "name": "service",
+      "modules": [
+        "taskq_api.service.facade",
+        "taskq_api.service.tasks",
+        "taskq_api.service.runner",
+        "taskq_api.service.auth",
+        "taskq_api.service.rate_limit",
+        "taskq_api.service.observability",
+        "taskq_api.service.redaction"
+      ],
+      "allowed_dependencies": [
+        "repository",
+        "models",
+        "independence"
+      ]
+    },
+    {
+      "name": "repository",
+      "modules": [
+        "taskq_api.repository.session",
+        "taskq_api.repository.orm",
+        "taskq_api.repository.tasks",
+        "taskq_api.repository.results",
+        "taskq_api.repository.api_keys",
+        "taskq_api.repository.rate_buckets",
+        "taskq_api.repository.health"
+      ],
+      "allowed_dependencies": [
+        "models",
+        "independence"
+      ]
+    },
+    {
+      "name": "models",
+      "modules": [
+        "taskq_api.models.common",
+        "taskq_api.models.domain",
+        "taskq_api.models.schemas"
+      ],
+      "allowed_dependencies": []
+    },
+    {
+      "name": "independence",
+      "modules": [
+        "taskq_api.config",
+        "taskq_api.errors"
+      ],
+      "allowed_dependencies": []
+    },
+    {
+      "name": "migrations",
+      "modules": [
+        "migrations.env",
+        "migrations.versions",
+        "migrations.versions.v1_initial",
+        "migrations.versions.v2_tags",
+        "migrations.versions.v3_split_results"
+      ],
+      "allowed_dependencies": [
+        "repository"
+      ]
+    }
+  ],
+  "dependencies": {
+    "api": [
+      "service",
+      "repository",
+      "models",
+      "independence"
+    ],
+    "service": [
+      "repository",
+      "models",
+      "independence"
+    ],
+    "repository": [
+      "models",
+      "independence"
+    ],
+    "migrations": [
+      "repository"
+    ]
+  },
+  "quality_targets": {
+    "max_complexity": 10,
+    "min_coverage": 100,
+    "max_coupling": 0.3
+  },
+  "nfr_dimension_mapping": {
+    "NFR-01": "performance",
+    "NFR-02": "security",
+    "NFR-03": "error_handling",
+    "NFR-04": "security",
+    "NFR-05": "documentation",
+    "NFR-06": "architecture_constraints",
+    "NFR-07": "license_compliance",
+    "NFR-08": "mutation_testing",
+    "NFR-09": "test_assertion_quality",
+    "NFR-10": "integration_coverage",
+    "NFR-11": "readability",
+    "NFR-12": "execute_verification_target"
+  },
+  "nfr_traceability": {
+    "NFR-01": {
+      "type": "performance",
+      "dimension": "performance",
+      "target": "GET /v1/tasks/{id} p95 < 30ms and GET /v1/tasks?limit=50 p95 < 80ms at 10,000 rows; SQL statement count per list request constant",
+      "module": "taskq_api.repository.tasks"
+    },
+    "NFR-02": {
+      "type": "security",
+      "dimension": "security",
+      "target": "0 shell=True/eval(/exec( hits; 0 string-built SQL; hash-only keys with hmac.compare_digest; deny-by-default CORS; bandit 0 HIGH 0 MEDIUM",
+      "module": "taskq_api.api.dependencies"
+    },
+    "NFR-03": {
+      "type": "reliability",
+      "dimension": "error_handling",
+      "target": "explicit commit/rollback per request; no bare except or except Exception: pass; CancelledError re-raised; DB failure fail-closed 503; timeout child killed and reaped",
+      "module": "taskq_api.repository.session"
+    },
+    "NFR-04": {
+      "type": "security",
+      "dimension": "security",
+      "target": "every line matching the canonical secret pattern replaced with [REDACTED] before persistence/emission; DB URL never in logs, errors, or /v1/metrics",
+      "module": "taskq_api.service.redaction"
+    },
+    "NFR-05": {
+      "type": "documentation",
+      "dimension": "documentation",
+      "target": "100% public docstrings with [FR-XX]/[NFR-XX] citations; every route has OpenAPI summary and description",
+      "module": "taskq_api.api.tasks"
+    },
+    "NFR-06": {
+      "type": "layering",
+      "dimension": "architecture_constraints",
+      "target": "import-linter layers contract api > service > repository > models with config/errors independence; sqlalchemy imports confined to repository and migrations; lint-imports exit 0",
+      "module": "taskq_api.repository.session"
+    },
+    "NFR-07": {
+      "type": "licensing",
+      "dimension": "license_compliance",
+      "target": "all runtime deps pinned with == plus full transitive lock; every license in MIT/BSD-2-Clause/BSD-3-Clause/Apache-2.0/PSF allowlist; SBOM emitted at 08-config/SBOM.json",
+      "module": "taskq_api.config"
+    },
+    "NFR-08": {
+      "type": "mutation",
+      "dimension": "mutation_testing",
+      "scope_layers": [
+        "service",
+        "repository"
+      ],
+      "target": "mutation score >= 70 over service/ and repository/ with the runtime-budget rationale recorded in harness_config.json",
+      "module": "taskq_api.service.facade"
+    },
+    "NFR-09": {
+      "type": "testability",
+      "dimension": "test_assertion_quality",
+      "target": "0 skipped/xfailed/stub tests; every test has at least one assert; real SQLite migration round trip with no mocks; TRACEABILITY_MATRIX VERIFIED only after execution",
+      "module": "migrations.versions.v3_split_results"
+    },
+    "NFR-10": {
+      "type": "integration",
+      "dimension": "integration_coverage",
+      "target": "integration line coverage >= 80 driven through httpx ASGITransport(app); status matrix 401/403/404/409/422/429/503, migration round trip, rate-limit recovery, graceful drain",
+      "module": "taskq_api.app"
+    },
+    "NFR-11": {
+      "type": "maintainability",
+      "dimension": "readability",
+      "target": "project MI >= 80; per-function CC <= 10; file <= 400 lines; directory <= 15 files; handler <= 40 lines",
+      "module": "taskq_api.service.facade"
+    },
+    "NFR-12": {
+      "type": "verifiability",
+      "dimension": "execute_verification_target",
+      "target": "make verify-system exit 0 after alembic upgrade head, full test suite, /healthz + /readyz smoke, downgrade base + upgrade head round trip; prints verify-system: PASS",
+      "module": "taskq_api.app"
+    }
+  },
+  "advisory_only": [],
+  "gate_score_overrides": {
+    "performance": 75.0,
+    "security": 80.0,
+    "error_handling": 80.0,
+    "documentation": 75.0,
+    "architecture_constraints": 100.0,
+    "license_compliance": 100.0,
+    "mutation_testing": 70.0,
+    "test_assertion_quality": 70.0,
+    "integration_coverage": 80.0,
+    "readability": 80.0,
+    "execute_verification_target": 100.0
+  },
+  "fr_module_traceability": {
+    "FR-01": [
+      "taskq_api.api.tasks",
+      "taskq_api.service.tasks"
+    ],
+    "FR-02": [
+      "taskq_api.api.runs",
+      "taskq_api.service.runner"
+    ],
+    "FR-03": [
+      "taskq_api.service.auth"
+    ],
+    "FR-04": [
+      "taskq_api.api.dependencies",
+      "taskq_api.service.auth"
+    ],
+    "FR-05": [
+      "taskq_api.service.rate_limit",
+      "taskq_api.repository.rate_buckets"
+    ],
+    "FR-06": [
+      "taskq_api.repository.session"
+    ],
+    "FR-07": [
+      "migrations.versions.v1_initial",
+      "migrations.versions.v2_tags",
+      "migrations.versions.v3_split_results"
+    ],
+    "FR-08": [
+      "taskq_api.service.runner"
+    ],
+    "FR-09": [
+      "taskq_api.api.health",
+      "taskq_api.api.metrics",
+      "taskq_api.service.observability"
+    ],
+    "FR-10": [
+      "taskq_api.api.problems",
+      "taskq_api.errors"
+    ]
+  },
+  "architecture_constraints": [
+    "no_circular_dependencies",
+    "layers_api_service_repository_models",
+    "config_and_errors_are_independence_modules",
+    "sqlalchemy_confined_to_repository_and_migrations"
+  ],
+  "high_risk_modules": [
+    "taskq_api.service.runner",
+    "taskq_api.service.auth",
+    "taskq_api.repository.session",
+    "migrations.versions.v3_split_results"
+  ],
+  "required_artifacts": [
+    ".env.example",
+    ".importlinter",
+    "requirements.txt",
+    "requirements.lock",
+    "requirements-dev.txt",
+    "alembic.ini",
+    "Makefile",
+    "08-config/SBOM.json",
+    ".methodology/harness_config.json"
+  ]
+}
